@@ -1,0 +1,7 @@
+# dotenv
+.env
+.env.*
+venv/
+helm-charts/
+.DS_Store
+__pycache__/
