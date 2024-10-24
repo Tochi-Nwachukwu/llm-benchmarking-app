@@ -141,29 +141,9 @@ In a production environment, it’s critical to monitor and log application perf
 
 Troubleshooting
 
-Common Issues:
+Common Issues you may have:
 
     •	Docker service fails to start: Ensure Docker is installed and running.
     •	MongoDB connection issues: Double-check the DATABASE_URL in your environment variables.
     •	Slow API response: Ensure Redis is working properly for caching.
 
-Contribution
-
-Feel free to submit issues and pull requests if you have any improvements or fixes. Follow the contribution guidelines for more information.
-
-License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-Images
-
-For the Kubernetes and Helm images, you can either upload these into your repository or link to external sources. Replace:
-
-    •	![Kubernetes Logo](kubernetes-logo.png)
-    •	![Helm Logo](helm-logo.png)
-
-With actual images or URLs if hosted online.
-
-Conclusion
-
-This README provides clear setup instructions, deployment guides, and an overview of the LLM Benchmarking application. Be sure to adjust paths, links, and placeholders to match your project’s specific configuration.

@@ -1,0 +1,36 @@
+replicaCount: 2
+
+image:
+  repository: tochinwachukwu/llm-benchmark
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8000
+
+ingress:
+  enabled: true
+  className: ""
+  annotations: {}
+  hosts:
+    - host: llm-benchmark.example.com
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+resources:
+  requests:
+    memory: "512Mi"
+    cpu: "500m"
+  limits:
+    memory: "1Gi"
+    cpu: "1"
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+database:
+  url: "mongodb+srv://llm-db-dev:SaSZjXu4L3LcuVTK@llmcluster.begfk.mongodb.net/?retryWrites=true&w=majority&appName=LLMCLUSTER"

@@ -11,26 +11,11 @@ services:
     environment:
       - DATABASE_URL=mongodb+srv://llm-db-dev:SaSZjXu4L3LcuVTK@llmcluster.begfk.mongodb.net/?retryWrites=true&w=majority&appName=LLMCLUSTER"
       - DATABASE_NAME=llm_benchmark
-    # depends_on:
-    #   - mongo
-    #   - redis
+   
     networks:
       - llm-network
-
-  # mongo:
-  #   container_name: llm-benchmark-mongo
-  #   image: mongo:5.0
-  #   ports:
-  #     - "27017:27017"
-  #   volumes:
-  #     - mongo-data:/data/db
-  #   networks:
-  #     - llm-network
 
 networks:
   llm-network:
     driver: bridge
 
-# volumes:
-#   mongo-data:
-#     driver: local
