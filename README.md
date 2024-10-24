@@ -5,7 +5,7 @@
  #### Built by - Tochi Nwachukwu
 
 ## Overview
-![image of ](https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi_VJskwX7fm6utvq4umYxjBp_W9As96S5dh8OE0XU3uRLzZU5eu4NCipxkSoRebsYGFw0f2w-rjK4D1DPkMR1F0g9czF2NIwZWlnm4YJSEBEGpsR0boTlKnVYF-ajScO_Xg5HhLJdy7vdGDlvKc6kUke248xNY-5gEF1RORdqrfJ55zIjUR7fvBCLPOsLF/s1640/10.png)
+![image of ](https://cdn.prod.website-files.com/628b58b14c93b92656929a99/644ae8d4037a9918718f2207_Frame%203433574.png)
 
 This project is an LLM (Large Language Model) Benchmarking Application that simulates and ranks various LLM models based on the following metrics:
 
@@ -34,7 +34,7 @@ To run this project locally or deploy it, make sure the following dependencies a
 #### Steps to Run Locally
 
     1.	Clone the Repository:
-git clone https://github.com/your-username/llm-benchmarking-app.git
+[git clone https://github.com/tochi/llm-benchmarking-app.git](https://github.com/Tochi-Nwachukwu/llm-benchmarking-app.git)
 cd llm-benchmarking-app
 
     2.	Install Docker:
@@ -54,7 +54,7 @@ http://localhost:8000
 
     5.	API Documentation:
 
-The application comes with interactive API documentation using Swagger. You can access it at:
+The application comes with interactive API documentation using Swagger. This came in with FastAPI, so I did not have to add in much here. You can access it at:
 
 http://localhost:8000/docs
 
@@ -95,6 +95,10 @@ The application is built using a microservices architecture. The main components
     •	FastAPI: Handles the API layer for accessing benchmark metrics and rankings.
     •	MongoDB: Stores all the simulation data for LLM performance metrics.
 
+There are two major services 
+1. The randomizer service
+2. The retrieve metrics service which gets the various metrics
+
 
 
 Database Overview
@@ -131,19 +135,9 @@ Example:
 
 http://localhost:8000/get-metrics/GPT-4o
 
-CI/CD Pipeline (Bonus)
 
-To fully automate the deployment process, a CI/CD pipeline can be set up using GitHub Actions, Jenkins, or GitLab CI. This pipeline will automatically build, test, and deploy the application to Kubernetes every time new code is pushed.
 
-Monitoring & Logging (Bonus)
-
-In a production environment, it’s critical to monitor and log application performance. Consider setting up Prometheus for metrics collection and Grafana for visualizing metrics. For logging, you can use ELK Stack (Elasticsearch, Logstash, Kibana).
-
-Troubleshooting
-
-Common Issues you may have:
-
+#### Common Issues you may have:
     •	Docker service fails to start: Ensure Docker is installed and running.
     •	MongoDB connection issues: Double-check the DATABASE_URL in your environment variables.
-    •	Slow API response: Ensure Redis is working properly for caching.
 
