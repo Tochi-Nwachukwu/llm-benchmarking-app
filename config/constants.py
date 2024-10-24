@@ -5,5 +5,4 @@ models = {
     "Gemini 1.5 Pro": db_collections.gemini15_pro_collection
 }
 
-
 metrics = ["ttft", "tps", "e2e_latency", "rps"]

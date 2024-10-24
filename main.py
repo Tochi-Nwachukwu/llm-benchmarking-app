@@ -31,6 +31,7 @@ async def rank_models(metric: str):
 @app.get("/get-metrics/{llm}")
 async def get_metric(llm: str):
     # Check if the LLM is valid
+    #  improvements --> I can have a hash map that maps user inputs to possible llms and be more forgiving in the user typographical errors using regex
     valid_llms = constants.models.keys()
     if llm not in valid_llms:
         raise HTTPException(
@@ -48,7 +49,7 @@ async def get_metric(llm: str):
 async def run_simulator():
     res = metrics_simulator.run_simulator()
     if res == True:
-        return "Simulator Started and Exited successfully"
+        return "Simulator Started and gracefully exited"
     else:
         raise HTTPException(
             status_code=500,
