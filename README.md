@@ -74,7 +74,7 @@ You’ll need Helm for managing Kubernetes packages. Follow the Helm Installatio
     3. Deploy the Application with Helm:
 From the root directory of the project, run the following command to install the application as microservices in your Kubernetes cluster:
 
-helm install llm-benchmark ./helm-chart
+helm install llm-benchmark ./infrastructure/helm-charts
 
 This will deploy the FastAPI app, MongoDB, and Redis into your Kubernetes cluster.
 
