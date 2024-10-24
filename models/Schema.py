@@ -2,13 +2,15 @@ from pydantic import BaseModel, Field
 from datetime import datetime
 from typing import Optional
 
-# Define Pydantic model for each LLM simulation result
+        
+# This MongoDB schema can be scaled to accommodate more metrics as needed for each model, following hte same template.
+
 class LLMMetrics(BaseModel):
     model_name: str = Field(..., example="GPT-4o")
-    ttft: float = Field(..., example=1.32)  # Time to First Token
-    tps: float = Field(..., example=300.5)  # Tokens Per Second
-    e2e_latency: float = Field(..., example=2.1)  # End-to-End Request Latency
-    rps: float = Field(..., example=75.0)  # Requests Per Second
+    ttft: float = Field(..., example=1.32)  
+    tps: float = Field(..., example=300.5)  
+    e2e_latency: float = Field(..., example=2.1) 
+    rps: float = Field(..., example=75.0) 
     timestamp: Optional[datetime] = Field(default_factory=datetime.utcnow)
 
     class Config:
@@ -22,3 +24,4 @@ class LLMMetrics(BaseModel):
                 "timestamp": "2024-10-19T14:25:32.635Z"
             }
         }
+        

@@ -1,15 +1,13 @@
-# This function simulates the performance of the various gpt 4o models
+# This function simulates the performance of the various  models
 import random
 import models.DAO.DAO as db_utils
 
 
-# As the randomizer generates data, it uses the insert metrics DAO to insert the metrics into the correct database collection.
-
-
+# The randomizer is a function that is built to generate data. As the randomizer generates data, it uses the insert metrics DAO to insert the metrics into the correct database collection.
 def randomizer():
     return {
         "ttft": random.uniform(0.5, 2.5),
-        "tft": random.uniform(100, 500),
+        "tps": random.uniform(100, 500),
         "e2e_latency": random.uniform(1, 3),
         "rps": random.uniform(10, 100)
     }
@@ -27,8 +25,14 @@ def save_metrics(collection_name, data):
     db_utils.insert_metrics(collection_name, data)
 
 
+# This function runs the simulator, to generate data for the various LLMs - here we use
 def run_simulator():
-    metrics_simulator(db_utils.gpt4o_collection, "GPT-4o")
-    metrics_simulator(db_utils.llama31_405_collection, "Llama 3.1 405")
-    metrics_simulator(db_utils.gemini15_pro_collection, "Gemini 1.5 Pro")
-    print("done")
+    try:
+        metrics_simulator(db_utils.gpt4o_collection, "GPT-4o")
+        metrics_simulator(db_utils.llama31_405_collection, "Llama 3.1 405")
+        metrics_simulator(db_utils.gemini15_pro_collection, "Gemini 1.5 Pro")
+        return True
+    except Exception as e:
+        print(
+            f"There was an error running the metric simulatror. check the db connection: {e}")
+        return False

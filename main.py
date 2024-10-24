@@ -19,11 +19,12 @@ async def rank_models(metric: str):
     if metric not in valid_metrics:
         raise HTTPException(
             status_code=400,
-            detail=f"Invalid metric. Valid metrics are: {', '.join(valid_metrics)}"
+            detail=f"Invalid metric. Valid metrics are: {
+                ', '.join(valid_metrics)}"
         )
 
-    # Rank the models by the specified metric
-    ranked_models = await db_utils.rank_models_by_metric(metric)
+    #  This calls a utility function that will Rank the models by the specified metric
+    ranked_models = db_utils.rank_models_by_metric(metric)
     return {"metric": metric, "ranking": ranked_models}
 
 
@@ -43,10 +44,20 @@ async def get_metric(llm: str):
     return res
 
 
+@app.get("/run-simulator")
+async def run_simulator():
+    res = metrics_simulator.run_simulator()
+    if res == True:
+        return "Simulator Started and Exited successfully"
+    else:
+        raise HTTPException(
+            status_code=500,
+            detail=f"There was an error running the benchmarks simulator. Check Application logs for details"
+        )
+
+
 # Initialize the MongoDB connection
 if db_init.connect():
     print("Successfully connected to MongoDB")
-    # Uncomment to run the simulator if needed
-    # metrics_simulator.run_simulator()
 else:
     print("Failed to connect to MongoDB")

@@ -2,13 +2,13 @@ from typing import Optional
 import time
 import json
 
-# Custom method for updating the cache with the record. the cache used in this case is the machine's ram, not redis. Redis connections were too slow, giving connections above the 2s requirements, since it has to spin up a separate container. The computer's ram currently only does this. other functions and calculations have been offloaded to the database queries.
+# This is a Custom method for updating the cache with the results from the database.
 
 
 class Cache():
     def __init__(self):
         self.memory = {}
-    # custom method to get records from the RAM cache for speed
+    # I created a custom method to get records from the RAM cache for speed
 
     def get_cache(self, key: str) -> Optional[str]:
         try:

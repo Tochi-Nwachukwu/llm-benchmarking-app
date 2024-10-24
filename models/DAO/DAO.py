@@ -21,15 +21,15 @@ cache = Cache()
 
 
 def rank_models_by_metric(metric):
-    # This is a function that retrieves the metrics data from the various collections and performs algorithms on it.
+    # This is a function that retrieves the metrics data from the various collections and performs aggregates it.
     key = ("-").join(metric.split(" "))
     res = cache.get_cache(key)
     if res:
         print(f"Cache hit for key: {key}")
-        # Deserialize the JSON string back to a Python object
+       
         return res
     else:
-        print(f"Cache miss for key: {key}. Fetching from MongoDB...")
+        print(f"Cache miss for key: {key}. Fetching from MongoDB Cloud database ...")
 
         models = [
             {"name": "GPT-4o", "avg_value": gpt4o_collection.aggregate(
@@ -40,7 +40,7 @@ def rank_models_by_metric(metric):
                 [{"$group": {"_id": None, "avg": {"$avg": f"${metric}"}}}]).next()['avg']}
         ]
 
-        # Rank models by average value (ascending)
+        # This python function ranks the Rank models by average value (ascending)
         ranked_models = sorted(models, key=lambda x: x['avg_value'])
         cache.set_cache(key, ranked_models)
         return ranked_models
@@ -55,19 +55,14 @@ async def retrieve_metrics(model_collection, key):
     # This Data Access Object retrieves the data for the specified collection.
     key = ("-").join(key.split(" "))
     try:
-        # Fetch the data from the Redis cache first
+        # Fetch the data from the  Cache first, and see if the data exists in the cache. if it is not there, it will proceed to use the database connection for this
         res = cache.get_cache(key)
         if res:
             print(f"Cache hit for key: {key}")
-            # Deserialize the JSON string back to a Python object
             return res
         else:
             print(f"Cache miss for key: {key}. Fetching from MongoDB...")
-
-            # If not in cache, fetch the data from MongoDB
             res = list(model_collection.find({}, {"_id": 0}))
-
-            # Store the result in cache (as a serialized JSON string)
             cache.set_cache(key, res)
             return res
 
