@@ -34,3 +34,4 @@ affinity: {}
 
 database:
   url: "mongodb+srv://llm-db-dev:SaSZjXu4L3LcuVTK@llmcluster.begfk.mongodb.net/?retryWrites=true&w=majority&appName=LLMCLUSTER"
+  name: "llm_benchmark"

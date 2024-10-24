@@ -4,3 +4,4 @@ metadata:
   name: llm-benchmark-config
 data:
   DATABASE_URL: "{{ .Values.database.url }}"
+  DATABASE_NAME: "{{ .Values.database.name }}"
