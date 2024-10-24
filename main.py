@@ -3,13 +3,16 @@ from fastapi import FastAPI, HTTPException
 import models.DAO.DAO as db_utils
 import config.constants as constants
 import services.metrics_simulator as metrics_simulator
+from fastapi.responses import HTMLResponse
+from views.index import html_content
 
 app = FastAPI()
 
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+@app.get("/", response_class=HTMLResponse)
+async def read_root():
+    
+    return HTMLResponse(content=html_content)
 
 
 @app.get("/rank/{metric}")
