@@ -1,4 +1,4 @@
-replicaCount: 2
+replicaCount: 1
 
 image:
   repository: tochinwachukwu/llm-benchmark
@@ -33,5 +33,22 @@ tolerations: []
 affinity: {}
 
 database:
-  url: "mongodb+srv://llm-db-dev:SaSZjXu4L3LcuVTK@llmcluster.begfk.mongodb.net/?retryWrites=true&w=majority&appName=LLMCLUSTER"
+  url: "mongodb://mongo:27017"
   name: "llm_benchmark"
+
+mongodb:
+  enabled: true
+  image: mongo:5.0
+  port: 27017
+  servicePort: 27017
+  resources: {}
+  url: "mongodb://mongo:27017"
+  name: "llm_benchmark"
+
+redis:
+  enabled: true
+  image: redis:6.0
+  port: 6379
+  servicePort: 6379
+  resources: {}
+  url: "redis://redis:6379"

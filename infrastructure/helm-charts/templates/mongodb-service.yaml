@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "llm-benchmark.fullname" . }}-mongodb
+spec:
+  type: ClusterIP
+  ports:
+    - port: {{ .Values.mongodb.servicePort }}
+      targetPort: {{ .Values.mongodb.port }}
+  selector:
+    app: {{ include "llm-benchmark.name" . }}-mongodb

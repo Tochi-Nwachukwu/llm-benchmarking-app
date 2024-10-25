@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "llm-benchmark.fullname" . }}-mongodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "llm-benchmark.name" . }}-mongodb
+  template:
+    metadata:
+      labels:
+        app: {{ include "llm-benchmark.name" . }}-mongodb
+    spec:
+      containers:
+        - name: mongodb
+          image: {{ .Values.mongodb.image }}
+          ports:
+            - containerPort: {{ .Values.mongodb.port }}
+          resources: {{ toYaml .Values.mongodb.resources | indent 12 }}

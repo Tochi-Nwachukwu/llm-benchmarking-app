@@ -1,10 +1,10 @@
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
-from config import config
+from config import settings
 
 
 def connect():
-    uri = config.DATABASE_URL
+    uri = settings.DATABASE_URL
     client = MongoClient(uri, server_api=ServerApi('1'))
     try:
         client.admin.command('ping')

@@ -1,35 +1,36 @@
 from fastapi import FastAPI, HTTPException
 from pymongo import MongoClient
-from config import config
-from config.cache_engine import Cache
+from config import settings
+from utils.cache import set_cache, get_cache
+from utils.logger import Logger
 import json
 
-
+logger = Logger()
 # FastAPI app setup
 app = FastAPI()
 # MongoDB connection setup
-client = MongoClient(config.DATABASE_URL)
-db = client[config.DATABASE_NAME]
+client = MongoClient(settings.DATABASE_URL)
+db = client[settings.DATABASE_NAME]
 
 # Collections
 gpt4o_collection = db['gpt4o']
 llama31_405_collection = db['llama31_405']
 gemini15_pro_collection = db['gemini15_pro']
 
-
-cache = Cache()
+component_name = "DAO"
 
 
 def rank_models_by_metric(metric):
     # This is a function that retrieves the metrics data from the various collections and performs aggregates it.
     key = ("-").join(metric.split(" "))
-    res = cache.get_cache(key)
+    res = get_cache(key)
     if res:
-        print(f"Cache hit for key: {key}")
-       
-        return res
+        logger.log(component_name+"-rank_models_by_metric",
+                   f"Cache hit for key: {key}")
+        return json.loads(res)
     else:
-        print(f"Cache miss for key: {key}. Fetching from MongoDB Cloud database ...")
+        logger.log(component_name+"-rank_models_by_metric", f"Cache miss for key: {
+            key}. Fetching from MongoDB Cloud database ...")
 
         models = [
             {"name": "GPT-4o", "avg_value": gpt4o_collection.aggregate(
@@ -42,7 +43,7 @@ def rank_models_by_metric(metric):
 
         # This python function ranks the Rank models by average value (ascending)
         ranked_models = sorted(models, key=lambda x: x['avg_value'])
-        cache.set_cache(key, ranked_models)
+        set_cache(key, ranked_models)
         return ranked_models
 
 
@@ -56,16 +57,18 @@ async def retrieve_metrics(model_collection, key):
     key = ("-").join(key.split(" "))
     try:
         # Fetch the data from the  Cache first, and see if the data exists in the cache. if it is not there, it will proceed to use the database connection for this
-        res = cache.get_cache(key)
+        res = get_cache(key)
         if res:
-            print(f"Cache hit for key: {key}")
-            return res
+            logger.log(component_name+"-retrieve_metrics",
+                       f"Cache hit for key: {key}")
+            return json.loads(res)
         else:
-            print(f"Cache miss for key: {key}. Fetching from MongoDB...")
+            logger.log(component_name+"-retrieve_metrics",
+                       f"Cache miss for key: {key}. Fetching from MongoDB...")
             res = list(model_collection.find({}, {"_id": 0}))
-            cache.set_cache(key, res)
+            set_cache(key, res)
             return res
 
     except Exception as e:
-        print(f"Error occurred: {e}")
+        logger.log(component_name+"-retrieve_metrics", f"Error occurred: {e}")
         return False

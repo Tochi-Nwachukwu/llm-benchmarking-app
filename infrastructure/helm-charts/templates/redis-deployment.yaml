@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "llm-benchmark.fullname" . }}-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "llm-benchmark.name" . }}-redis
+  template:
+    metadata:
+      labels:
+        app: {{ include "llm-benchmark.name" . }}-redis
+    spec:
+      containers:
+        - name: redis
+          image: {{ .Values.redis.image }}
+          ports:
+            - containerPort: {{ .Values.redis.port }}
+          resources: {{ toYaml .Values.redis.resources | indent 12 }}
