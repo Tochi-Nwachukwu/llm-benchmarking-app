@@ -6,8 +6,6 @@ from utils.logger import Logger
 import json
 
 logger = Logger()
-# FastAPI app setup
-app = FastAPI()
 # MongoDB connection setup
 client = MongoClient(settings.DATABASE_URL)
 db = client[settings.DATABASE_NAME]

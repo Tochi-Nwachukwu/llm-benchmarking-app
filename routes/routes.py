@@ -38,14 +38,3 @@ async def get_metric(llm: str):
     llm_model = constants.models.get(llm)
     res = await db_utils.retrieve_metrics(llm_model, llm)
     return ResponseModel(res, f"Metrics for {llm} added successfully.")
-
-@router.get("/run-simulator")
-async def run_simulator():
-    res = metrics_simulator.run_simulator()
-    if res:
-        return "Simulator Started and gracefully exited"
-    else:
-        raise HTTPException(
-            status_code=500,
-            detail="There was an error running the benchmarks simulator. Check Application logs for details"
-        )
