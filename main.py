@@ -17,10 +17,14 @@ if db_init.connect():
     #  if connection is successful, seed the database with the correct data.
     data_migration = run_simulator()
     if data_migration == True:
-        logger.log(component_name+"-data-migration",
-                   "Successfully Seeded the database with fresh simulation records")
+        logger.log(
+            component_name + "-data-migration",
+            "Successfully Seeded the database with fresh simulation records",
+        )
     else:
-        logger.log(component_name+"-data-migration-job",
-                   "The database has already been seeded")
+        logger.log(
+            component_name + "-data-migration-job",
+            "The database has already been seeded",
+        )
 else:
     logger.err(component_name, "Failed to connect to MongoDB")

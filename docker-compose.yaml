@@ -1,4 +1,4 @@
-version: "3.8"
+version: "2.4"
 
 services:
   app:
@@ -11,9 +11,12 @@ services:
     environment:
       - DATABASE_URL=mongodb://mongo:27017
       - REDIS_URL=redis://redis:6379
+      - DATABASE_NAME=llm_benchmark
     depends_on:
-      - mongo
-      - redis
+      mongo:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     networks:
       - llm-network
 
@@ -26,6 +29,11 @@ services:
       - mongo-data:/data/db
     networks:
       - llm-network
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   redis:
     container_name: llm-benchmark-redis
@@ -34,6 +42,11 @@ services:
       - "6379:6379"
     networks:
       - llm-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 networks:
   llm-network:
