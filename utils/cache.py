@@ -10,14 +10,12 @@ component_name = "redis"
 def create_redis() -> redis.ConnectionPool:
     try:
         return redis.ConnectionPool(
-            host='0.0.0.0',
-            port=6379,
-            db=0,
-            decode_responses=True
+            host="0.0.0.0", port=6379, db=0, decode_responses=True
         )
     except Exception as e:
-        logger.err(component_name,
-                   f"Error occurred while creating Redis connection pool: {e}")
+        logger.err(
+            component_name, f"Error occurred while creating Redis connection pool: {e}"
+        )
 
 
 pool = create_redis()
@@ -28,8 +26,7 @@ def get_redis() -> redis.Redis:
         # Get a connection from the pool
         return redis.Redis(connection_pool=pool)
     except Exception as e:
-        logger.err(component_name,
-                   f"Error occurred while getting Redis client: {e}")
+        logger.err(component_name, f"Error occurred while getting Redis client: {e}")
         raise e
 
 
@@ -41,18 +38,22 @@ def get_cache(key: str) -> Optional[str]:
         logger.log(component_name, f"Getting value for key: {key}")
         return cache.get(key)
     except Exception as e:
-        logger.log(component_name,
-                   f"Error occured while getting cache for key {key}. Error -> {e}")
+        logger.log(
+            component_name,
+            f"Error occured while getting cache for key {key}. Error -> {e}",
+        )
         return None
 
 
 def set_cache(key: str, value, expire: int = 30) -> Optional[str]:
     try:
-        logger.log(component_name, f"Setting value for key: {
-                   key} with expiration: {expire} seconds")
+        logger.log(
+            component_name,
+            f"Setting value for key: {
+                   key} with expiration: {expire} seconds",
+        )
         if isinstance(value, (list, dict)):
             value = json.dumps(value)
         cache.set(key, value, ex=expire)
     except Exception as e:
-        logger.err(component_name,
-                   f"Error occured while getting cache for key {e}")
+        logger.err(component_name, f"Error occured while getting cache for key {e}")
